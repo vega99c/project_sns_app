@@ -10,9 +10,9 @@ const mainRouter = require('./routes/main.router');
 const usersRouter = require('./routes/users.router');
 const postsRouter = require('./routes/posts.router');
 const commentsRouter = require('./routes/comments.router');
-const profileRouter = require('./routes/profile.router');
+const profilesRouter = require('./routes/profiles.router');
 const likesRouter = require('./routes/likes.router');
-const friendRouter = require('./routes/friend.router');
+const friendsRouter = require('./routes/friends.router');
 
 const serverConfig = config.get('server');
 
@@ -69,8 +69,8 @@ app.use('/', mainRouter);
 app.use('/auth', usersRouter);
 app.use('/posts', postsRouter);
 app.use('/posts/:id/comments', commentsRouter);
-app.use('/profile/:id', profileRouter);
-app.use('/friends', friendRouter);
+app.use('/profiles/:id', profilesRouter);
+app.use('/friends', friendsRouter);
 app.use('/posts/:id/likes', likesRouter);
 
 
