@@ -62,7 +62,8 @@ mongoose.connect(process.env.MONGO_URI)
         console.log(err);
     })
 
-app.use('/static', express.static(path.join(__dirname, '../public')));
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', mainRouter);
