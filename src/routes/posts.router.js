@@ -43,7 +43,7 @@ router.get('/', checkAuthenticated, (req, res) => {
     .sort({ createdAt: -1 })
     .exec((err, posts) => {
         if(err) {
-            console.log("Error occured")
+            console.log(err);
         } else {
             res.render('posts/index', {
                 posts: posts,
