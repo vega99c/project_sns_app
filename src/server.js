@@ -74,7 +74,10 @@ app.use('/profiles/:id', profilesRouter);
 app.use('/friends', friendsRouter);
 app.use('/posts/:id/likes', likesRouter);
 
-
+app.use((err, req, res, next) => {
+    res.status(err.status || 500);
+    res.send(err.message || "Error Occured");
+})
 app.listen(port, () => {
     console.log(`Listening on ${port}`);
 })
