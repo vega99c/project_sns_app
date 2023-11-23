@@ -4,6 +4,7 @@ const { default: mongoose } = require('mongoose');
 const passport = require('passport');
 const app = express();
 const path = require('path');
+const flash = require('connect-flash');
 
 const config = require('config');
 const mainRouter = require('./routes/main.router');
@@ -49,6 +50,8 @@ require('./config/passport');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use(flash());
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -64,6 +67,23 @@ mongoose.connect(process.env.MONGO_URI)
 
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+app.get('/send', (req, res) => {
+    req.flash('post success', '포스트가 생성되었습니다.');
+    res.redirect('/receive');
+})
+
+app.get('/receive', (req, res) => {
+    res.send(req.flash('post success')[0]);
+})
+
+app.use((req, res, next) => {
+    res.locals.error = req.flash('error');
+    res.locals.success = req.flash('success');
+    res.locals.currentUser = req.user;
+    next();
+})
 
 
 app.use('/', mainRouter);

@@ -30,9 +30,12 @@ router.post('/', checkAuthenticated, upload, (req, res, next) => {
         }
     }, (err, post) => {
         if(err) {
-            next(err);
+            req.flash('error', '포스트 생성 실패');
+            res.redirect("back");
+            // next(err);
         } else {
-            res.redirect("posts");
+            req.flash('success', '포스트 생성 성공');
+            res.redirect("back");
         }
     })   
 })
@@ -46,8 +49,7 @@ router.get('/', checkAuthenticated, (req, res) => {
             console.log(err);
         } else {
             res.render('posts/index', {
-                posts: posts,
-                currentUser: req.user
+                posts: posts,                
             })
         }
     })
