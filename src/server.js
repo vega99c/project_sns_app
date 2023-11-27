@@ -16,6 +16,7 @@ const likesRouter = require('./routes/likes.router');
 const friendsRouter = require('./routes/friends.router');
 
 const serverConfig = config.get('server');
+const methodOverride = require('method-override');
 
 
 const port = serverConfig.port;
@@ -51,6 +52,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use(flash());
+
+app.use(methodOverride('_method'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
