@@ -11,7 +11,7 @@ const mainRouter = require('./routes/main.router');
 const usersRouter = require('./routes/users.router');
 const postsRouter = require('./routes/posts.router');
 const commentsRouter = require('./routes/comments.router');
-const profilesRouter = require('./routes/profiles.router');
+const profilesRouter = require('./routes/profile.router');
 const likesRouter = require('./routes/likes.router');
 const friendsRouter = require('./routes/friends.router');
 
@@ -93,7 +93,7 @@ app.use('/', mainRouter);
 app.use('/auth', usersRouter);
 app.use('/posts', postsRouter);
 app.use('/posts/:id/comments', commentsRouter);
-app.use('/profiles/:id', profilesRouter);
+app.use('/profile/:id', profilesRouter);
 app.use('/friends', friendsRouter);
 app.use(likesRouter);
 
