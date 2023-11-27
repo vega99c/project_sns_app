@@ -93,4 +93,38 @@ router.put('/:id/accept-friend-request', checkAuthenticated, (req, res) => {
     })
 })
 
+//친구 삭제
+router.put('/:id/remove-friend', checkAuthenticated, (req, res) => {
+    User.findById(req.params.id, (err, user) => {
+        if(err || !user) {
+            req.flash('error', '유저를 찾는데 실패했습니다.');
+            res.redirect('back');
+        } else { 
+            User.findByIdAndUpdate(user._id, {
+                friends: user.friends.filter(friendId => 
+                    friendId !== req.user._id.toString())
+            }, (err, _) => {
+                if(err) {
+                    req.flash('error', '친구 삭제하는데 실패했습니다.');
+                    res.redirect('back');
+                } else { 
+                    User.findByIdAndUpdate(req.user._id, {
+                        friends: req.user.friends.filter(friendId =>
+                            friendId !== req.params.id.toString())
+                    }, (err, _) => {
+                        if(err) {
+                            req.flash('error', '친구 삭제하는데 실패했습니다.');
+                        } else {
+                            req.flash('success', '친구 삭제하는데 성공했습니다.');
+                        }                        
+                        res.redirect('back');
+                    })
+                }
+            })
+        }
+    })
+})
+
+
+
 module.exports = router;
