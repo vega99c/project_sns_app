@@ -54,7 +54,7 @@ const userSchema = mongoose.Schema({
         default: 123456789
     },
     friends: [{ type: String }],
-    friendRequests: [{ type: String }]
+    friendsRequests: [{ type: String }]
 }, {timestamps: true })
 
 const saltRounds = 10;
