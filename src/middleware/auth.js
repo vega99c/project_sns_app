@@ -1,4 +1,5 @@
 const Post = require('../models/posts.model');
+const Comment = require('../models/comments.model');
 
 
 function checkAuthenticated(req, res, next) {
@@ -39,8 +40,31 @@ function checkPostOwnership(req, res, next) {
     }
 }
 
+function checkCommentOwnership(req, res, next) {
+    if(req.isAuthenticated()) {
+        Comment.findById(req.params.commentId, (err, comment) => {
+            if(err || !comment) {
+                req.flash('error', '댓글을 찾는 중 에러가 발생');
+                res.redirect('back');
+            } else { 
+                if(comment.author.id.equals(req.user._id)) {
+                    req.comment = comment;
+                    next();
+                } else {
+                    req.flash('error', "Permission denied");
+                    res.redirect("back");
+                }
+            }
+        })
+    } else {
+        req.flash('error', '로그인을 해주세요');
+        res.redirect('/login');
+    }
+}
+
 module.exports = {
     checkAuthenticated,
     checkNotAuthenticated,
-    checkPostOwnership
+    checkPostOwnership,
+    checkCommentOwnership
 }
